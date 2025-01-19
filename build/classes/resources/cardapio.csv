@@ -1,0 +1,11 @@
+id,nome,preco,categoria
+1,Hambúrguer,15.50,Lanche
+2,Refrigerante,5.00,Bebida
+3,Batata Frita,8.00,Acompanhamento
+4,Milkshake,12.00,Sobremesa
+5,Salada,10.00,Saudável
+6,Água,3.50,Bebida
+7,Pizza,25.00,Lanche
+8,Sorvete,7.50,Sobremesa
+9,Sanduíche Natural,12.00,Saudável
+10,Suco Natural,6.00,Bebida
