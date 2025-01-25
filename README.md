@@ -23,4 +23,4 @@ Bem-vindo ao projeto **Restaurante**, um sistema de gestão de pedidos que simul
 
 ### **Diagrama de Classes**
 Abaixo está o diagrama de classes que representa a estrutura do sistema:
-![diagramaRestaurante](https://github.com/user-attachments/assets/13927013-2a99-4acd-a627-1682b37e9f80)
+![diagramaRestaurante](https://github.com/user-attachments/assets/f653fed9-3bcf-424b-92fa-2042e08d74b0)
