@@ -3,17 +3,16 @@ Relatório do Dia
 Pedido #1
 - 1 - Hambúrguer (Lanche): R$ 15.5
 - 2 - Refrigerante (Bebida): R$ 5.0
-Total: R$ 20.5
+- 3 - Batata Frita (Acompanhamento): R$ 8.0
+- 4 - Milkshake (Sobremesa): R$ 12.0
+Total: R$ 40.5
 Pedido #2
-- 3 - Batata Frita (Acompanhamento): R$ 8.0
-Total: R$ 8.0
-Pedido #3
+- 4 - Milkshake (Sobremesa): R$ 12.0
+- 5 - Salada (Saudável): R$ 10.0
 - 6 - Água (Bebida): R$ 3.5
-- 10 - Suco Natural (Bebida): R$ 6.0
-- 8 - Sorvete (Sobremesa): R$ 7.5
-- 3 - Batata Frita (Acompanhamento): R$ 8.0
-Total: R$ 25.0
+- 9 - Sanduíche Natural (Saudável): R$ 12.0
+Total: R$ 37.5
 
 Resumo do Dia
-Pedidos realizados: 3
-Faturamento total: R$ 53.5
+Pedidos realizados: 2
+Faturamento total: R$ 78.0

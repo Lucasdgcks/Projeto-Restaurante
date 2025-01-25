@@ -1,7 +1,9 @@
 
 package projeto.restaurante;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class Cardapio {
         this.itens = new ArrayList<>();
     }
 
-    public void carregarDeCSV(String caminho) throws IOException {
+   public void carregarDeCSV(String caminho) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
             String linha;
             reader.readLine(); // Ignora o cabeçalho
@@ -27,18 +29,19 @@ public class Cardapio {
         }
     }
 
-    public void exibirItens() {
-        for (ItemCardapio item : itens) {
-            System.out.println(item);
-        }
+    
+    public List<ItemCardapio> getItens() {
+        return itens;
     }
 
+   
     public ItemCardapio buscarItemPorId(int id) {
         for (ItemCardapio item : itens) {
             if (item.getId() == id) {
                 return item;
             }
         }
-        return null;
+        return null; // Retorna null se o item não for encontrado
     }
 }
+

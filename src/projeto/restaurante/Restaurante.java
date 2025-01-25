@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class Restaurante extends RestauranteAbstrato {
     private Cardapio cardapio;
@@ -18,52 +20,111 @@ public class Restaurante extends RestauranteAbstrato {
     @Override
     public void abrir() {
         this.aberto = true;
-        System.out.println("Restaurante aberto!");
+        System.out.println("Restaurante aberto! Pronto para receber pedidos.");
     }
 
     @Override
     public void fechar() {
         this.aberto = false;
-        System.out.println("Restaurante fechado!");
+        System.out.println("Restaurante fechado! Gerando relatório do dia...");
         try {
             Relatorio.gerarRelatorio("src/resources/relatorio.txt", pedidos);
-        } catch (IOException ex) {
-            Logger.getLogger(Restaurante.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Relatório gerado com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao gerar o relatório: " + e.getMessage());
         }
-        System.out.println("Relatorio gerado com sucesso!");
     }
 
     public void processarPedido(Pedido pedido) {
         if (aberto) {
             pedidos.add(pedido);
-            System.out.println("Pedido processado: \n" + pedido);
+            System.out.println("Pedido #" + pedido.getId() + " processado com sucesso!");
         } else {
-            System.out.println("O restaurante está fechado. Não é possível realizar pedidos.");
+            System.out.println("O restaurante está fechado. Não é possível registrar pedidos.");
+        }
+    }
+
+    public void mostrarCardapio() {
+        System.out.println("=== Cardápio ===");
+        for (ItemCardapio item : cardapio.getItens()) {
+            System.out.println(item.getId() + " - " + item.getNome() + " (R$ " + item.getPreco() + ")");
+        }
+    }
+
+    public void mostrarPedidos() {
+        if (pedidos.isEmpty()) {
+            System.out.println("Nenhum pedido foi registrado ainda.");
+        } else {
+            System.out.println("=== Pedidos Registrados ===");
+            for (Pedido pedido : pedidos) {
+                System.out.println(pedido);
+            }
         }
     }
 
     public void iniciar() throws IOException {
+        Scanner scanner = new Scanner(System.in);
         cardapio.carregarDeCSV("src/resources/cardapio.csv");
-        abrir();
+        boolean executando = true;
 
-        // Criando pedidos automaticamente
-        Pedido pedido1 = new Pedido();
-        pedido1.adicionarItem(cardapio.buscarItemPorId(1));
-        pedido1.adicionarItem(cardapio.buscarItemPorId(2));
-        processarPedido(pedido1);
+        while (executando) {
+            System.out.println("\n=== Sistema do Restaurante ===");
+            System.out.println("1. Abrir Restaurante");
+            System.out.println("2. Registrar Pedido");
+            System.out.println("3. Visualizar Pedidos");
+            System.out.println("4. Fechar Restaurante");
+            System.out.println("5. Sair");
+            System.out.print("Escolha uma opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
 
-        Pedido pedido2 = new Pedido();
-        pedido2.adicionarItem(cardapio.buscarItemPorId(3));
-        processarPedido(pedido2);
-        
-        Pedido pedido3 = new Pedido();
-        pedido3.adicionarItem(cardapio.buscarItemPorId(6));
-        pedido3.adicionarItem(cardapio.buscarItemPorId(10));
-        pedido3.adicionarItem(cardapio.buscarItemPorId(8));
-        pedido3.adicionarItem(cardapio.buscarItemPorId(3));
-        processarPedido(pedido3);
+            switch (opcao) {
+                case 1:
+                    abrir();
+                    break;
+                case 2:
+                    if (aberto) {
+                        mostrarCardapio();
+                        Pedido novoPedido = new Pedido();
+                        boolean adicionando = true;
 
-        fechar();
+                        while (adicionando) {
+                            System.out.print("Digite o ID do item para adicionar ao pedido (ou 0 para finalizar): ");
+                            int idItem = scanner.nextInt();
+                            if (idItem == 0) {
+                                adicionando = false;
+                            } else {
+                                ItemCardapio item = cardapio.buscarItemPorId(idItem);
+                                if (item != null) {
+                                    novoPedido.adicionarItem(item);
+                                    System.out.println("Item adicionado: " + item.getNome());
+                                } else {
+                                    System.out.println("Item não encontrado. Tente novamente.");
+                                }
+                            }
+                        }
+
+                        processarPedido(novoPedido);
+                    } else {
+                        System.out.println("O restaurante está fechado. Abra o restaurante para registrar pedidos.");
+                    }
+                    break;
+                case 3:
+                    mostrarPedidos();
+                    break;
+                case 4:
+                    fechar();
+                    break;
+                case 5:
+                    executando = false;
+                    System.out.println("Saindo do sistema. Até mais!");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+
+        scanner.close();
     }
 
     public static void main(String[] args) {
@@ -71,7 +132,7 @@ public class Restaurante extends RestauranteAbstrato {
             Restaurante restaurante = new Restaurante();
             restaurante.iniciar();
         } catch (IOException e) {
-            System.err.println("Erro ao carregar o restaurante: " + e.getMessage());
+            System.err.println("Erro ao carregar o sistema: " + e.getMessage());
         }
     }
 }
